@@ -1,4 +1,4 @@
-# WebhookHandler
+# WebhookHandler [![Build Status](https://travis-ci.org/chrismytton/webhook_handler.svg?branch=master)](https://travis-ci.org/chrismytton/webhook_handler)
 
 Combines Sinatra and Sidekiq into a neat package that makes creating simple apps that respond to webhooks a pleasure.
 
