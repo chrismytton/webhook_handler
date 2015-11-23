@@ -13,4 +13,4 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Initial release
 
-[0.2.0]: https://github.com/olivierlacan/keep-a-changelog/compare/v0.1.0...v0.2.0
+[0.2.0]: https://github.com/chrismytton/webhook_handler/compare/v0.1.0...v0.2.0
