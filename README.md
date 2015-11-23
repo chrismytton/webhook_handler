@@ -1,8 +1,6 @@
 # WebhookHandler
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/webhook_handler`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Combines Sinatra and Sidekiq into a neat package that makes creating simple apps that respond to webhooks a pleasure.
 
 ## Installation
 
@@ -22,7 +20,47 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Define a class and include the `WebhookHandler` module. This class then acts as a Sidekiq worker and a Sinatra app.
+
+**app.rb**
+
+```ruby
+require 'webhook_handler'
+
+class MyApp
+  include WebhookHandler
+
+  def perform
+    puts "Working hard!"
+    sleep 5
+  end
+end
+```
+
+**config.ru**
+
+```ruby
+require_relative './app'
+run MyApp
+```
+
+### Sinatra compatibility
+
+You can also declare other routes in the class:
+
+```ruby
+class MyApp
+  include WebhookHandler
+
+  def perform
+    # ...
+  end
+
+  get '/status' do
+    "I'm a regular Sinatra route!"
+  end
+end
+```
 
 ## Development
 
@@ -32,5 +70,4 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/webhook_handler.
-
+Bug reports and pull requests are welcome on GitHub at https://github.com/chrismytton/webhook_handler.
