@@ -1,0 +1,9 @@
+require 'webhook_handler'
+
+class <%= @constant_name %>
+  include WebhookHandler
+
+  def perform
+    # Your code goes here...
+  end
+end
