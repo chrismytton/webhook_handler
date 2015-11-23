@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.3.0] - 2015-11-23
+
+### Added
+
+- There is now an app generator that can be used to create a new app. This can be accessed via the `webhook_handler` binary.
+
 ## [0.2.0] - 2015-11-23
 
 ### Changed
@@ -14,3 +20,4 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Initial release
 
 [0.2.0]: https://github.com/chrismytton/webhook_handler/compare/v0.1.0...v0.2.0
+[0.3.0]: https://github.com/chrismytton/webhook_handler/compare/v0.2.0...v0.3.0
