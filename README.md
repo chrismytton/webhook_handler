@@ -44,6 +44,26 @@ require_relative './app'
 run MyApp
 ```
 
+If you want to pass some arguments from the request into the background job you can define a `handle_webhook` method.
+
+```ruby
+class MyApp
+  include WebhookHandler
+
+  def handle_webhook
+    request.body.rewind
+    payload = JSON.parse(request.body.read)
+    self.class.perform_async(payload['message'])
+  end
+
+  def perform(message)
+    puts "Got a message: #{message}"
+    # Do some long running task...
+    sleep 2
+  end
+end
+```
+
 ## CLI
 
 You can also generate a new app with the command line tool:
