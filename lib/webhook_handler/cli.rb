@@ -5,7 +5,7 @@ require 'webhook_handler/version'
 module WebhookHandler
   class CLI < Thor
     include Thor::Actions
-    desc "new NAME", "create a new app called NAME"
+    desc 'new NAME', 'create a new app called NAME'
 
     def self.source_root
       File.dirname(__FILE__)
@@ -13,7 +13,7 @@ module WebhookHandler
 
     def new(name)
       # @see http://git.io/vBqrp
-      @constant_name = name.tr('-', '_').gsub(/-[_-]*(?![_-]|$)/) { "::" }.gsub(/([_-]+|(::)|^)(.|$)/) { $2.to_s + $3.upcase }
+      @constant_name = name.tr('-', '_').gsub(/-[_-]*(?![_-]|$)/) { '::' }.gsub(/([_-]+|(::)|^)(.|$)/) { Regexp.last_match(2).to_s + Regexp.last_match(3).upcase }
 
       FileUtils.mkdir_p(name)
       puts "Creating app '#{name}'..."
