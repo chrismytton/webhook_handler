@@ -1,3 +1,6 @@
+require 'simplecov'
+SimpleCov.start if ENV['COVERAGE']
+
 require 'test_helper'
 require 'rack/test'
 require 'sidekiq/testing'
