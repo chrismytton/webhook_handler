@@ -5,7 +5,7 @@ require 'sinatra'
 module WebhookHandler
   def self.included(klass)
     klass.extend self
-    klass.include Sidekiq::Worker
+    klass.send(:include, Sidekiq::Worker)
     klass.extend Sinatra::Delegator
     klass.instance_eval do
       get '/' do
