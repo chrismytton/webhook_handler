@@ -13,6 +13,19 @@ class MyApp
   end
 end
 
+class AnotherApp
+  include WebhookHandler
+
+  def handle_webhook
+    request.body.rewind
+    payload = JSON.parse(request.body.read)
+    self.class.perform_async(payload['message'])
+  end
+
+  def perform(message)
+  end
+end
+
 class WebhookHandlerTest < Minitest::Test
   include Rack::Test::Methods
 
@@ -43,5 +56,19 @@ class WebhookHandlerTest < Minitest::Test
     assert_equal 0, app.jobs.size
     post '/'
     assert_equal 1, app.jobs.size
+  end
+
+  class ComplexWebhookHandling < Minitest::Test
+    include Rack::Test::Methods
+
+    def app
+      AnotherApp
+    end
+
+    def test_overriding_handle_webhook
+      post '/', '{"message": "Hello, world!"}', 'CONTENT_TYPE' => 'application/json'
+      job = app.jobs.last
+      assert_equal ['Hello, world!'], job['args']
+    end
   end
 end
