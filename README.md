@@ -1,6 +1,6 @@
 # WebhookHandler [![Build Status](https://travis-ci.org/chrismytton/webhook_handler.svg?branch=master)](https://travis-ci.org/chrismytton/webhook_handler)
 
-Combines Sinatra and Sidekiq into a neat package that makes creating simple apps that respond to webhooks a pleasure.
+Combines Rack and Sidekiq into a neat package that makes creating simple apps that respond to webhooks a pleasure.
 
 ## Installation
 
@@ -20,7 +20,7 @@ Or install it yourself as:
 
 ## Usage
 
-Define a class and include the `WebhookHandler` module. This class then acts as a Sidekiq worker and a Sinatra app.
+Define a class and include the `WebhookHandler` module. This class then acts as a Sidekiq worker and a Rack app.
 
 **app.rb**
 
@@ -42,24 +42,6 @@ end
 ```ruby
 require_relative './app'
 run MyApp
-```
-
-### Sinatra compatibility
-
-You can also declare other routes in the class:
-
-```ruby
-class MyApp
-  include WebhookHandler
-
-  def perform
-    # ...
-  end
-
-  get '/status' do
-    "I'm a regular Sinatra route!"
-  end
-end
 ```
 
 ## CLI

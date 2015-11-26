@@ -1,25 +1,40 @@
 require 'webhook_handler/version'
 require 'sidekiq'
-require 'sinatra'
+require 'rack'
 
 module WebhookHandler
-  def self.included(klass)
-    klass.extend self
-    klass.send(:include, Sidekiq::Worker)
-    klass.extend Sinatra::Delegator
-    klass.instance_eval do
-      get '/' do
-        'Send a POST request to this URL to trigger the webhook'
-      end
+  attr_reader :request
+  attr_reader :response
 
-      post '/' do
-        klass.perform_async
-        'ok'
-      end
+  def self.included(klass)
+    klass.extend ClassMethods
+    klass.send(:include, Sidekiq::Worker)
+  end
+
+  module ClassMethods
+    def call(env)
+      new.call(env)
     end
   end
 
-  def call(*args)
-    Sinatra::Application.call(*args)
+  def call(env)
+    @request = Rack::Request.new(env)
+    @response = Rack::Response.new
+
+    if request.get?
+      response.write('Send a POST request to this URL to trigger the webhook')
+    elsif request.post?
+      if respond_to?(:handle_webhook)
+        send(:handle_webhook)
+      else
+        _handle_webhook
+      end
+    end
+
+    response.finish
+  end
+
+  def _handle_webhook
+    response.write(self.class.perform_async)
   end
 end
